@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+
+
+    <RelativeLayout
+        android:layout_width="387dp"
+        android:layout_height="515dp">
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Return to Customer Search"
+            android:id="@+id/btnReturnToMain"
+            android:onClick="changeActivity"
+            android:layout_marginBottom="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CIF:"
+            android:id="@+id/lblCIF"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewCIF"
+            android:textSize="25sp"
+            android:layout_above="@+id/lblCustomerName"
+            android:layout_toEndOf="@+id/lblCustomerName" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer Name:"
+            android:id="@+id/lblCustomerName"
+            android:textSize="25sp"
+            android:layout_below="@+id/lblCIF"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewCustomerName"
+            android:textSize="20sp"
+            android:layout_below="@+id/lblCustomerName"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latitude:"
+            android:id="@+id/lblLatitude"
+            android:textSize="25sp"
+            android:layout_below="@+id/txtViewCityState"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewLatitude"
+            android:textSize="20sp"
+            android:layout_alignTop="@+id/lblLatitude"
+            android:layout_alignStart="@+id/txtViewLongitude" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Longitude:"
+            android:id="@+id/lblLongitude"
+            android:textSize="25sp"
+            android:layout_alignTop="@+id/txtViewLongitude"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewLongitude"
+            android:textSize="20sp"
+            android:layout_below="@+id/txtViewLatitude"
+            android:layout_alignStart="@+id/txtViewCIF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Visit Date:"
+            android:id="@+id/lblLastVisitDate"
+            android:textSize="25sp"
+            android:layout_below="@+id/lblLongitude"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewLastVisitDate"
+            android:textSize="20sp"
+            android:layout_alignStart="@+id/txtViewLongitude"
+            android:layout_below="@+id/txtViewLongitude" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="City / State:"
+            android:id="@+id/lblCityState"
+            android:textSize="25sp"
+            android:textIsSelectable="false"
+            android:layout_below="@+id/txtViewCustomerName"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtViewCityState"
+            android:textSize="20sp"
+            android:layout_below="@+id/lblCityState"
+            android:layout_alignParentStart="true" />
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Map"
+            android:id="@+id/btnMap"
+            android:onClick="openMap"
+            android:nestedScrollingEnabled="false"
+            android:layout_above="@+id/btnReturnToMain"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="59dp" />
+
+    </RelativeLayout>
+</LinearLayout>

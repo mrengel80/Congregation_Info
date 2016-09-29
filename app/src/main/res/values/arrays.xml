@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="districts">
+        <item>1 - NATIONAL OFFICE</item>
+        <item>3 - ATLANTIC</item>
+        <item>5 - CALIFORNIA-NEVADA-HAWAII</item>
+        <item>7 - PACIFIC SOUTHWEST</item>
+        <item>9 - ROCKY MOUNTAIN</item>
+        <item>12 - EASTERN</item>
+        <item>14 - ENGLISH</item>
+        <item>16 - FLORIDA GEORGIA</item>
+        <item>22 - NORTHERN ILLINOIS</item>
+        <item>24 - SOUTHERN ILLINOIS</item>
+        <item>26 - INDIANA</item>
+        <item>28 - IOWA DISTRICT EAST</item>
+        <item>30 - IOWA DISTRICT WEST</item>
+        <item>32 - KANSAS</item>
+        <item>38 - MID SOUTH </item>
+        <item>39 - MINNESOTA NORTH</item>
+        <item>41 - MINNESOTA SOUTH</item>
+        <item>43 - MISSOURI</item>
+        <item>44 - MONTANA</item>
+        <item>47 - NEBRASKA</item>
+        <item>49 - NEW ENGLAND</item>
+        <item>51 - NEW JERSEY</item>
+        <item>53 - NORTH DAKOTA</item>
+        <item>55 - NORTHWEST</item>
+        <item>58 - OKLAHOMA</item>
+        <item>63 - SOUTHEASTERN</item>
+        <item>76 - NORTH WISCONSIN</item>
+        <item>78 - SOUTH WISCONSIN </item>
+        <item>79 - WYOMING</item>
+        <item>97 - SELC</item>
+    </string-array>
+</resources>
