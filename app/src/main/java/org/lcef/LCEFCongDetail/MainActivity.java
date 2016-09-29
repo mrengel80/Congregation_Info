@@ -5,21 +5,17 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -28,7 +24,6 @@ import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ResourceCursorAdapter;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -132,37 +127,6 @@ public class MainActivity extends AppCompatActivity {
         District_CB.setAdapter(adapter);
 
         final DownloadTask task = new DownloadTask();
-
-        // Restore saved data from previous instance if it exists.
-//        if ((savedInstanceState != null)
-//             && (savedInstanceState.getSerializable("CIF") != null)) {
-//                    strCIF.setText(savedInstanceState.getSerializable("CIF").toString());
-//        }
-//
-//        if ((savedInstanceState != null)
-//                && (savedInstanceState.getSerializable("CustName") != null)) {
-//            strCustomerName.setText(savedInstanceState.getSerializable("CustName").toString());
-//        }
-//
-//        if ((savedInstanceState != null)
-//                && (savedInstanceState.getSerializable("CityState") != null)) {
-//            strCityState.setText(savedInstanceState.getSerializable("CityState").toString());
-//        }
-//
-//        if ((savedInstanceState != null)
-//                && (savedInstanceState.getSerializable("Lat") != null)) {
-//            strLatitude.setText(savedInstanceState.getSerializable("Lat").toString());
-//        }
-//
-//        if ((savedInstanceState != null)
-//                && (savedInstanceState.getSerializable("Long") != null)) {
-//            strLongitude.setText(savedInstanceState.getSerializable("Long").toString());
-//        }
-//
-//        if ((savedInstanceState != null)
-//                && (savedInstanceState.getSerializable("LastVisitDate") != null)) {
-//            strLastVisitDate.setText(savedInstanceState.getSerializable("LastVisitDate").toString());
-//        }
 
         District_CB.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -328,38 +292,6 @@ public class MainActivity extends AppCompatActivity {
 
         congDB.execSQL("CREATE TABLE IF NOT EXISTS tblCongregations (Prospect INTEGER, CIF INTEGER, CustomerName VARCHAR, CityState VARCHAR, IndexID INTEGER, Latitude FLOAT, Longitude FLOAT, SearchName VARCHAR, LastVisitDate VARCHAR, VisitCode INTEGER, Segment INTEGER)");
     }
-
-    /*
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
-        // Save UI state changes to the savedInstanceState.
-        // This bundle will be passed to onCreate if the process is
-        // killed and restarted.
-
-        savedInstanceState.putString("CIF", strCIF.toString());
-        savedInstanceState.putString("CustName", strCustomerName.toString());
-        savedInstanceState.putString("CityState", strCityState.toString());
-        savedInstanceState.putString("Lat", strLatitude.toString());
-        savedInstanceState.putString("Long", strLongitude.toString());
-        savedInstanceState.putString("LastVisitDate", strLastVisitDate.toString());
-    }
-    */
-
-    /*
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore UI state from the savedInstanceState.
-        // This bundle has also been passed to onCreate.
-        String stateCIF = savedInstanceState.getString("CIF");
-        String stateCustName = savedInstanceState.getString("CustName");
-        String stateCityState = savedInstanceState.getString("CityState");
-        String stateLat = savedInstanceState.getString("Lat");
-        String stateLong = savedInstanceState.getString("Long");
-        String stateLastVisitDate = savedInstanceState.getString("LastVisitDate");
-    }
-    */
 
     public class ClientCursorAdapter extends ResourceCursorAdapter {
 
