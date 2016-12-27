@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.graphics.Rect;
 import android.os.AsyncTask;
@@ -12,10 +13,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -195,20 +198,32 @@ public class MainActivity extends AppCompatActivity {
                         statement.execute();
                     }
 
-                    String query = "SELECT '' as _id, * FROM tblCongregations ORDER BY CIF desc";
+                    // TodoDatabaseHandler is a SQLiteOpenHelper class connecting to SQLite
+                    congDatabaseHelper handler = new congDatabaseHelper(getApplicationContext());
+                    // Get access to the underlying writeable database
+                    SQLiteDatabase db = handler.getWritableDatabase();
+                    // Query for items from the database and get a cursor back
+                    Cursor congCursor = db.rawQuery("SELECT '' as _id, * FROM tblCongregations ORDER BY CIF desc", null);
 
-                    Cursor cursor = congDB.rawQuery(query, null);
+                    // Find ListView to populate
+                    ListView lvItems = (ListView) findViewById(R.id.lstViewCustomers);
+                    // Setup cursor adapter using cursor from last step
+                    ClientCursorAdapter congAdapter = new ClientCursorAdapter(getApplicationContext(), congCursor);
+                    // Attach cursor adapter to the ListView
+                    lvItems.setAdapter(congAdapter);
 
-                    Log.i("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));
+//                    String query = "SELECT '' as _id, * FROM tblCongregations ORDER BY CIF desc";
+//
+//                    Cursor cursor = congDB.rawQuery(query, null);
+//
+//                    Log.i("Cursor Object", DatabaseUtils.dumpCursorToString(cursor));
+//
+//                    cursor.moveToFirst();
+//
+////                   ClientCursorAdapter dbAdapter = new ClientCursorAdapter(getApplicationContext(), R.layout.activity_listview, cursor, 0 );
+//                    ClientCursorAdapter dbAdapter = new ClientCursorAdapter(getApplicationContext(), android.R.layout.activity_list_item, cursor, 0 );
 
-                    cursor.moveToFirst();
 
-//                   ClientCursorAdapter dbAdapter = new ClientCursorAdapter(getApplicationContext(), R.layout.activity_listview, cursor, 0 );
-                    ClientCursorAdapter dbAdapter = new ClientCursorAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, cursor, 0 );
-
-                    ListView myList= (ListView) findViewById(R.id.lstViewCustomers);
-
-                    myList.setAdapter(dbAdapter);
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -272,43 +287,104 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        String[]  myStringArray={"A","B","C"};
-
-
-        ArrayAdapter<String> myAdapter=new
-                ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                myStringArray);
-
-        ListView myList=(ListView)
-                findViewById(R.id.lstViewCustomers);
-
-        myList.setAdapter(myAdapter);
-        */
-
         congDB = this.openOrCreateDatabase("tblCongregations", MODE_PRIVATE, null);
 
         congDB.execSQL("CREATE TABLE IF NOT EXISTS tblCongregations (Prospect INTEGER, CIF INTEGER, CustomerName VARCHAR, CityState VARCHAR, IndexID INTEGER, Latitude FLOAT, Longitude FLOAT, SearchName VARCHAR, LastVisitDate VARCHAR, VisitCode INTEGER, Segment INTEGER)");
     }
 
-    public class ClientCursorAdapter extends ResourceCursorAdapter {
+    public class congDatabaseHelper extends SQLiteOpenHelper {
+        // Database Info
+        private static final String DATABASE_NAME = "congDB";
+        private static final int DATABASE_VERSION = 1;
 
-        public ClientCursorAdapter(Context context, int layout, Cursor c, int flags) {
-            super(context, layout, c, flags);
+        // Table Names
+        private static final String TABLE_CONGS = "tblCongregations";
+
+        // User Table Columns
+        private static final String KEY_PROSPECT = "Prospect";
+        private static final String KEY_CIF = "CIF";
+        private static final String KEY_CUSTOMERNAME = "CustomerName";
+        private static final String KEY_CITYSTATE = "CityState";
+        private static final String KEY_INDEXID = "IndexID";
+        private static final String KEY_LATITUDE = "Latitude";
+        private static final String KEY_LONGITUDE = "Longitude";
+        private static final String KEY_SEARCHNAME = "SearchName";
+        private static final String KEY_LASTVISITDATE = "LastVisitDate";
+        private static final String KEY_VISITCODE = "VisitCode";
+        private static final String KEY_SEGMENT = "Segment";
+
+        public congDatabaseHelper(Context context) {
+            super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        // Called when the database connection is being configured.
+        // Configure database settings for things like foreign key support, write-ahead logging, etc.
+        @Override
+        public void onConfigure(SQLiteDatabase db) {
+            super.onConfigure(db);
+            db.setForeignKeyConstraintsEnabled(true);
+        }
+
+        // Called when the database is created for the FIRST time.
+        // If a database already exists on disk with the same DATABASE_NAME, this method will NOT be called.
+        @Override
+        public void onCreate(SQLiteDatabase db) {
+            String CREATE_CONG_TABLE = "CREATE TABLE " + TABLE_CONGS +
+                    "(" +
+                    KEY_PROSPECT + " INTEGER," +
+                    KEY_CIF + " INTEGER," +
+                    KEY_CUSTOMERNAME + " VARCHAR" +
+                    KEY_CITYSTATE + " VARCHAR" +
+                    KEY_INDEXID + " INTEGER" +
+                    KEY_LATITUDE + " FLOAT" +
+                    KEY_LONGITUDE + " FLOAT" +
+                    KEY_SEARCHNAME + " VARCHAR" +
+                    KEY_LASTVISITDATE + " VARCHAR" +
+                    KEY_VISITCODE + " INTEGER" +
+                    KEY_SEGMENT + " INTEGER" +
+                    ")";
+
+            db.execSQL(CREATE_CONG_TABLE);
+        }
+
+        // Called when the database needs to be upgraded.
+        // This method will only be called if a database already exists on disk with the same DATABASE_NAME,
+        // but the DATABASE_VERSION is different than the version of the database that exists on disk.
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+            if (oldVersion != newVersion) {
+                // Simplest implementation is to drop all old tables and recreate them
+                db.execSQL("DROP TABLE IF EXISTS " + TABLE_CONGS);
+                onCreate(db);
+            }
+        }
+    }
+
+    public class ClientCursorAdapter extends CursorAdapter {
+        public ClientCursorAdapter(Context context, Cursor cursor) {
+            super(context, cursor, 0);
+        }
+
+        // The newView method is used to inflate a new view and return it,
+        // you don't bind any data to the view at this point.
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            return LayoutInflater.from(context).inflate(R.layout.activity_listview, parent, false);
+        }
+
+        // The bindView method is used to bind all data to a given view
+        // such as setting the text on a TextView.
         @Override
         public void bindView(View view, Context context, Cursor cursor) {
-            TextView CIF = (TextView) view.findViewById(R.id.CIF);
-            CIF.setText(cursor.getString(cursor.getColumnIndex("CIF")));
-
-            TextView CustomerName = (TextView) view.findViewById(R.id.CustomerName);
-            CustomerName.setText(cursor.getString(cursor.getColumnIndex("CustomerName")));
-
-            TextView CityState = (TextView) view.findViewById(R.id.CityState);
-            CityState.setText(cursor.getString(cursor.getColumnIndex("CityState")));
+            // Find fields to populate in inflated template
+            TextView tvBody = (TextView) view.findViewById(R.id.txtViewCustomerName);
+            TextView tvPriority = (TextView) view.findViewById(R.id.txtViewCityState);
+            // Extract properties from cursor
+            String body = cursor.getString(cursor.getColumnIndexOrThrow("CustomerName"));
+            int priority = cursor.getInt(cursor.getColumnIndexOrThrow("CityState"));
+            // Populate fields with extracted properties
+            tvBody.setText(body);
+            tvPriority.setText(String.valueOf(priority));
         }
     }
 
